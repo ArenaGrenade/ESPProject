@@ -2,6 +2,7 @@ import datetime
 import numpy as np
 from scipy import interpolate
 import random
+import matplotlib.pyplot as plt
 
 def getTime(params, count):
     ctime = datetime.datetime(year=params["year"], month=params["month"], day=params["day"], hour=params["hour"], minute=params["minute"], second=params["second"])
@@ -15,21 +16,21 @@ def getTime(params, count):
 
 def getTemperature(count):
     values = []
-    cur = 23.30000
+    cur = 23.3 + round(random.random() * 5, 1)
     for _ in range(int(count / 2)):
-        values.append('{:.5f}'.format(cur))
+        values.append('{:.5f}'.format(round(cur, 1)))
         cur += 0.08
     for _ in range(int(count / 2)):
-        values.append('{:.5f}'.format(cur))
+        values.append('{:.5f}'.format(round(cur, 1)))
         cur -= 0.08
     return values
 
 def getHumidity(count):
     values = []
-    cur = 52.1
+    cur = 52.1 + round(random.random() * 10, 1)
     for _ in range(count):
-        values.append('{:.5f}'.format(cur))
-        cur += round(random.random() - 0.5, 1)
+        values.append('{:.5f}'.format(round(cur, 1)))
+        cur += random.random() - 0.5
     return values
 
 def getLight(count, intensity="low"):
@@ -46,18 +47,36 @@ def getLight(count, intensity="low"):
     values = func(tar) + noise1 + noise2
     return list(map(str, np.round(values, decimals=5).tolist()))
 
-def getCO2(count):
-    return
+def getCO2(count, start, end):
+    values = []
+    cur = start + round(random.random() * 60)
+    delta = (end - start) / count
+    for _ in range(count):
+        values.append('{:.5f}'.format(round(cur)))
+        cur += delta + (random.random() - 0.5) * 8
+    return values
 
 def getTVOC(count):
-    return
+    values = []
+    cur = 9 + round(random.random() * 7)
+    sgn = [1, -1]
+    delta = [1, 2, 3, 4]
+    for _ in range(count):
+        values.append('{:.5f}'.format(min(abs(cur), 30)))
+        cur += random.choice(sgn) * random.choice(delta)
+    return values
 
 def getVOC(count):
-    return
+    values = []
+    cur = 29121 + round(random.random() * 3000)
+    for _ in range(count):
+        values.append(str(round(cur)))
+        cur += 20 + (random.random() - 0.4) * 50
+    return values
 
 def getSMS(count, start, end):
     values = []
-    cur = start
+    cur = min(98, start + round(random.random() * 10))
     delta = (end - start) / count
     for _ in range(count):
         values.append(str(round(cur)))
@@ -69,4 +88,7 @@ if __name__ == "__main__":
     # print(getLight(120, intensity="high"))
     # print(getTemperature(120))
     # print(getHumidity(120))
-    print(getSMS(120, 80, 60))
+    # print(getCO2(120, 452, 361))
+    print(getTVOC(120))
+    # print(getVOC(120))
+    # print(getSMS(120, 80, 60))
