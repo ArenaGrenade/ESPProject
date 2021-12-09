@@ -1,0 +1,6 @@
+pycrypto
+pycryptodome
+flask
+python-dotenv==0.19.0
+gunicorn
+requests
