@@ -1,5 +1,0 @@
-in p5.json (6th dec)
-change moisture values to 55
-
-in p6.json (6th dec)
-change moisture values to 45
